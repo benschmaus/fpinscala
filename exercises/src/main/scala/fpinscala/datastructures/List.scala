@@ -249,25 +249,15 @@ object List { // `List` companion object. Contains functions for creating and wo
     case (_, Nil) => true
     case (Nil, _) => false
     case (Cons(h1, t1), Cons(h2, t2)) => 
-      if (h1 == h2) hasSubsequence(t1, t2)
+      if (h1 == h2) hasPrefix(t1, t2)
       else false
   }
 
 
-  def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
-
-    def checkSub(sup: List[A], sub: List[A], s: Int = 0): Boolean = (sup, sub) match {
-      case (_, Nil) => { s > 0 }
-      case (Nil, _) => false
-      case (Cons(h1, t1), Cons(h2, t2)) => 
-        if (h1 == h2)
-          checkSub(t1, t2, s+1)
-        else
-          checkSub(t1, sub, s-1)
-          
-    }
-    checkSub(sup, sub)
-
+  def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
+    case Nil => false
+    case Cons(h, t) => 
+      hasPrefix(sup, sub) || hasSubsequence(t, sub)
   }
 
 }
